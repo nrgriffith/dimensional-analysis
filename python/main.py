@@ -3,31 +3,37 @@
 # science problems (chemistry, physics, etc.) Some of the more advanced
 # topics can have units that aren't as obviously interconnected.
 # This program will provide a comparison of units by simplifying each
-# unit into its SI base units.
+# unit into its SI base units
 
 # SI base unit names
-SI_BASE_NAME =	{
-		2: "meter",
-		3: "kilogram",
-		5: "second",
-		7: "ampere",
-		11: "kelvin",
-		13: "mole",
-		17: "candela"
+SI_BASE = {
+		2: ("m", "meter"),
+		3: ("kg", "kilogram"),
+		5: ("s", "second"),
+		7: ("a", "ampere"),
+		11: ("k", "kelvin"),
+		13: ("mol", "mole"),
+		17: ("cd", "candela")
 		}
 
-# SI base unit symbols
-SI_BASE_SYMBOL ={
-		2: "m",
-		3: "kg",
-		5: "s",
-		7: "a",
-		11: "k",
-		13: "mol",
-		17: "cd"
-		}
+class CompoundUnit():
+	def getName(self):
+		return self.name
 
-PRIME_NUMBERS = (2, 3, 5, 7, 11, 13, 17)
+	def getSymbol(self):
+		return self.symbol
+
+	def getValue(self):
+		return self.value
+
+	def getK(self):
+		return self.k
+
+	def __init__(self, name, symbol, value, k):
+		self.name = name
+		self.symbol = symbol
+		self.value = value
+		self.k = k
 
 # Variables
 unitCombined = 1
@@ -50,7 +56,7 @@ def combine_units(unitList = []):
 
 # Checks to see if a unit is a base unit
 def is_base_unit(unit):
-	for n in PRIME_NUMBERS:
+	for n in SI_BASE:
 		if unit % n == 0 and unit / n != 1:
 			return False
 	else:
@@ -63,7 +69,7 @@ def reset_factors(rfactors = []):
 # Returns a list of prime factors
 def factor_units(unit, factors = []):
 	reset_factors(factors)
-	for n in PRIME_NUMBERS:
+	for n in SI_BASE:
 		while unit % n == 0 and unit / n != 1:
 			unit/=n
 			factors.append(n)
@@ -72,10 +78,10 @@ def factor_units(unit, factors = []):
 # Print the unit combination in SI base units
 def print_in_base_units(factors = []):
 	print "SI Base Units: ",
-	for n in PRIME_NUMBERS:
+	for n in SI_BASE:
 		if factors.count(n) != 0:
 			print "(",
-			print SI_BASE_SYMBOL[n],
+			print SI_BASE[n][0],
 			print ")^%d" %factors.count(n),
 	print "\n"
 
